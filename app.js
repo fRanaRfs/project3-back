@@ -25,8 +25,7 @@ app.use("/api",isAuthenticated, taskRouter);            // <== UPDATE
 //const anunciosRouter = require("./routes/anuncios.routes");
 //app.use("/api",isAuthenticated, anunciosRouter);       
 
-const index = require('./routes/index'); // <== already included
-app.use('/', index); // <== already included
+
  
 
 
