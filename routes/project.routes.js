@@ -6,10 +6,10 @@ const Project = require('../models/Project.model');
 
 //  POST /api/projects  -  Creates a new project
 router.post('/projects', (req, res, next) => {
-	const { title, description, image, fulldescription} = req.body;
+	const { title, description, image, fulldescription, date} = req.body;
 	const {_id} = req.payload
-
-	Project.create({ title, description, image, fulldescription, tasks: [] })
+	console.log('Aqui', date)
+	Project.create({ title, description, image, fulldescription, date, tasks: [] })
 		.then((response) => 
 		{
 			return User.findByIdAndUpdate(_id, {
@@ -45,6 +45,22 @@ router.get('/projects/:projectId', (req, res, next) => {
 	// Each Project document has `tasks` array holding `_id`s of Task documents
 	// We use .populate() method to get swap the `_id`s for the actual Task documents
 	Project.findById(projectId)
+		.populate('tasks')
+		.then((project) => res.status(200).json(project))
+		.catch((error) => res.json(error));
+});
+
+router.get('/projects/:projectId', (req, res, next) => {
+	const { anunciosId } = req.params;
+
+	if (!mongoose.Types.ObjectId.isValid(anunciosId)) {
+		res.status(400).json({ message: 'Specified id is not valid' });
+		return;
+	}
+
+	// Each Project document has `tasks` array holding `_id`s of Task documents
+	// We use .populate() method to get swap the `_id`s for the actual Task documents
+	Project.findById(anunciosId)
 		.populate('tasks')
 		.then((project) => res.status(200).json(project))
 		.catch((error) => res.json(error));

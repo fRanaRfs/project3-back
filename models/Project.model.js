@@ -6,8 +6,9 @@ const projectSchema = new Schema({
   description: String,
   image: String,
   fulldescription: String,
+  date: String,
   tasks: [{ type: Schema.Types.ObjectId, ref: "Task" }],
-  // owner will be added later on
+  
 });
 
 module.exports = model("Project", projectSchema);
